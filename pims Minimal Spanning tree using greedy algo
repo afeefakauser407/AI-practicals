@@ -1,0 +1,38 @@
+from collections import defaultdict
+
+class Graph:
+    def _init_(self):
+        self.graph = defaultdict(dict)
+
+    def add_edge(self, u, v, weight):
+        self.graph[u][v] = weight
+        self.graph[v][u] = weight
+
+    def prim_mst(self):
+        mst = set()
+        vertices = list(self.graph.keys())
+        mst.add(vertices[0])
+
+        while len(mst) < len(vertices):
+            min_edge = float('inf')
+            min_u = None
+            min_vertex = None
+            for u in mst:
+                for v, weight in self.graph[u].items():
+                    if v not in mst and weight < min_edge:
+                        min_edge = weight
+                        min_vertex = v
+                        min_u = u
+            mst.add(min_vertex)
+            print(f"{min_u} - {min_vertex}: {min_edge}")
+
+# Example usage:
+g = Graph()
+g.add_edge('A', 'B', 2)
+g.add_edge('A', 'C', 3)
+g.add_edge('B', 'C', 1)
+g.add_edge('B', 'D', 1)
+g.add_edge('C', 'D', 4)
+
+print("Edges of Minimal Spanning Tree using Prim's Algorithm:")
+g.prim_mst()
